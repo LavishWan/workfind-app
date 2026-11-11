@@ -1,0 +1,35 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: workfind-app:latest
+    container_name: workfind-app
+    ports:
+      - "8001:8000"
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: workFind
+      DB_USERNAME: root
+      DB_PASSWORD: root
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: workFind-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: workFind
+    ports:
+      - "3308:3306"
+    volumes:
+      - workfind-db-data:/var/lib/mysql
+
+volumes:
+  workfind-db-data:
+    external: true
+    name: e49f50169d6e29f92e719054c45ed84488780448ee8b92974a4612b5e1f709c1
